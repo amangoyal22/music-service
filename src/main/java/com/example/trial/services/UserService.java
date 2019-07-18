@@ -24,7 +24,7 @@ public interface UserService {
      *
      * @param userBo the user bo
      */
-    void signIn(UserBo userBo);
+    String signIn(UserBo userBo);
 
     /**
      * Restaurant list restaurant list response dto.

@@ -82,8 +82,8 @@ public class User {
         ResponseDto responseDto;
         try {
 
-            userService.signIn(dtoToBoMapper.getUserSignInDtoToBo(userSignInRequestDto));
-            responseDto = new ResponseDto(ResponseConstant.SUCCESS,ResponseConstant.SUCCESS,null);
+            String userUid  = userService.signIn(dtoToBoMapper.getUserSignInDtoToBo(userSignInRequestDto));
+            responseDto = new ResponseDto(ResponseConstant.SUCCESS,ResponseConstant.SUCCESS,userUid);
 
         } catch (Exception exp) {
             LOGGER.error("Error Occured: {}",exp.getMessage());

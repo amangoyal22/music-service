@@ -71,8 +71,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signIn(UserBo userBo) {
-        userRepoService.login(userBo.getEmail(), userBo.getPassword());
+    public String signIn(UserBo userBo) {
+        userBo = userRepoService.login(userBo.getEmail(), userBo.getPassword());
+        return userBo.getUserUid();
     }
 
     @Override
