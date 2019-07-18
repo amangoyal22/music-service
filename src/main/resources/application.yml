@@ -1,0 +1,29 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+      url: "jdbc:mysql://localhost:3306/music_service?useSSL=false&zeroDateTimeBehavior=convertToNull"
+      username: root
+      password:
+      datasource-driver-class-name: com.mysql.jdbc.Driver
+
+  servlet:
+      multipart:
+          enabled: true
+          file-size-threshold: 2KB
+          max-file-size: 200MB
+          max-request-size: 215MB
+  file:
+      upload-dir: /Users/zomato/zomato/upload
+  cache:
+    redis:
+      host: localhost
+      port: 6379
+      database: 1
+      maxWait: 100
+      maxIdle: 100
+      minIdle: 10
+      maxTotal: 100
+      connectionTimeout: 2000
+      readTimeOut: 2000
