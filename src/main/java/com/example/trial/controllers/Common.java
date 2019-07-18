@@ -155,10 +155,10 @@ public class Common {
      * @param addSongInQueueRequestDto the add song in queue request dto
      * @return the queue
      */
-    @PostMapping(value = "/addExistingSongInPlaylist", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity addExistingSongInPlaylist(@RequestBody AddSongInQueueRequestDto addSongInQueueRequestDto) {
+    @PostMapping(value = "/addExistingSongInQueue", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity addExistingSongInQueue(@RequestBody AddSongInQueueRequestDto addSongInQueueRequestDto) {
 
-        LOGGER.info("Owner Playlist Details API Called");
+        LOGGER.info("Common Queue Details API Called");
         ResponseDto responseDto;
 
         try {
