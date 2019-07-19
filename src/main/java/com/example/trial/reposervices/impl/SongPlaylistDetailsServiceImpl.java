@@ -32,12 +32,10 @@ public class SongPlaylistDetailsServiceImpl implements SongPlaylistDetailsServic
 
     @Override
     public SongPlaylistDetailsBo savePlaylistSong(SongPlaylistDetailsBo songPlaylistDetailsBo) {
-
         SongPlaylistDetailsEntity songPlaylistDetailsEntity = entityBoMapper
                 .songPlaylistDetailsBoToEntity(songPlaylistDetailsBo);
         songPlaylistDetailsEntity.setStatus(MusicTrialConstant.ACTIVE);
         songPlaylistDetailsEntity = songPlaylistDetailsRepositry.save(songPlaylistDetailsEntity);
-
         return entityBoMapper.songPlaylistDetailsEntityToBo(songPlaylistDetailsEntity);
     }
 
