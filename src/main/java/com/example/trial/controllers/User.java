@@ -135,7 +135,8 @@ public class User {
 
         try {
 
-            userService.voting(voteRequestDto.getSongId(), voteRequestDto.isUpVote(),voteRequestDto.getUserUid());
+            userService.voting(voteRequestDto.getSongId(), voteRequestDto.isUpVote(),voteRequestDto.getUserUid(),
+                    voteRequestDto.getRestaurantUid());
             responseDto = new ResponseDto(ResponseConstant.SUCCESS,ResponseConstant.SUCCESS,null);
 
         } catch (Exception exp) {

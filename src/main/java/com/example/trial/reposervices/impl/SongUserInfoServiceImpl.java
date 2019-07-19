@@ -38,9 +38,9 @@ public class SongUserInfoServiceImpl implements SongUserInfoService {
 
     @Override
     public PlaylistSongUserInfoBo getNextSongDetails(final String restaurantUid) {
-
-        final PlaylistSongUserInfoEntity playlistSongUserInfoEntity = playlistSongUserInfoRepository
-                .findQueueSongByRestaurantUid(restaurantUid, CommonUtils.getDate(), MusicTrialConstant.INACTIVE);
+        PlaylistSongUserInfoEntity playlistSongUserInfoEntity;
+          playlistSongUserInfoEntity = playlistSongUserInfoRepository
+                    .findQueueSongByRestaurantUid(restaurantUid, CommonUtils.getDate(), MusicTrialConstant.INACTIVE);
         //updating for the playing record
         playlistSongUserInfoEntity.setPlayed(MusicTrialConstant.ACTIVE);
         playlistSongUserInfoRepository.save(playlistSongUserInfoEntity);
@@ -49,9 +49,9 @@ public class SongUserInfoServiceImpl implements SongUserInfoService {
     }
 
     @Override
-    public void doVote(String songId, boolean vote, boolean add) {
+    public void doVote(String restaurantUid, String songId, boolean vote, boolean add) {
         PlaylistSongUserInfoEntity playlistSongUserInfoEntity = playlistSongUserInfoRepository
-                .findBySongIdAndStatus(Long.parseLong(songId), MusicTrialConstant.ACTIVE);
+                .findByRetaurantUidAndSongIdAndStatus(restaurantUid, Long.parseLong(songId), MusicTrialConstant.ACTIVE);
 
         if (Objects.isNull(playlistSongUserInfoEntity)) {
             LOGGER.error("Given SongId: {} is not Active For the Voting", songId);
@@ -90,7 +90,7 @@ public class SongUserInfoServiceImpl implements SongUserInfoService {
 
         return entityBoMapper.playlistSongUserInfoEntityToBo(playlistSongUserInfoEntity);
     }
-
+    //if likes and dislikes zero thenn same song  error
     @Override
     public void updateCurrentSongInfo(String restaurantUid, Long songId) {
 
@@ -135,5 +135,13 @@ public class SongUserInfoServiceImpl implements SongUserInfoService {
                 .findBySongIdAndRetaurantUidAndCreatedAtAndStatus(songId, restaurantUid, CommonUtils.getDate(),
                         MusicTrialConstant.ACTIVE);
         return Objects.isNull(playlistSongUserInfoEntity);
+    }
+
+
+    private int getSize(String restaurantUid) {
+        final List<PlaylistSongUserInfoEntity> playlistSongUserInfoEntity = playlistSongUserInfoRepository
+                .findByRetaurantUidAndCreatedAtAndStatus(restaurantUid, CommonUtils.getDate(),
+                        MusicTrialConstant.ACTIVE);
+        return playlistSongUserInfoEntity.size();
     }
 }

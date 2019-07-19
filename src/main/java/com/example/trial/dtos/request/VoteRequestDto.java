@@ -23,6 +23,12 @@ public class VoteRequestDto {
     @JsonProperty("upVote")
     boolean upVote;
 
+    /**
+     * The Up vote.
+     */
+    @JsonProperty("restaurantUid")
+    String restaurantUid;
+
 
     /**
      * Gets song id.
@@ -76,5 +82,13 @@ public class VoteRequestDto {
      */
     public void setUserUid(String userUid) {
         this.userUid = userUid;
+    }
+
+    public String getRestaurantUid() {
+        return restaurantUid;
+    }
+
+    public void setRestaurantUid(String restaurantUid) {
+        this.restaurantUid = restaurantUid;
     }
 }

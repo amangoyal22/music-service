@@ -23,6 +23,7 @@ public interface UserService {
      * Sign in.
      *
      * @param userBo the user bo
+     * @return the string
      */
     String signIn(UserBo userBo);
 
@@ -37,8 +38,10 @@ public interface UserService {
     /**
      * Voting.
      *
-     * @param songId the song id
-     * @param upVote the up vote
+     * @param songId        the song id
+     * @param upVote        the up vote
+     * @param userUid       the user uid
+     * @param restaurantUid the restaurant uid
      */
-    void voting(String songId, boolean upVote, String userUid);
+    void voting(String songId, boolean upVote, String userUid,String restaurantUid);
 }

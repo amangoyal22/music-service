@@ -30,17 +30,17 @@ public class RedisServiceImpl implements RedisService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisService.class);
 
     @Override
-    public void deleteSongKeys(Long songId) {
+    public void deleteSongKeys(Long songId, String restaurantUid) {
         LOGGER.info("Deleting Key For songId: {}", songId);
-        redisTemplate.delete(songId + RedisConstant.REDIS_DISLIKE_SUFFIX);
-        redisTemplate.delete(songId + RedisConstant.REDIS_LIKE_SUFFIX);
+        redisTemplate.delete(restaurantUid + songId + RedisConstant.REDIS_DISLIKE_SUFFIX);
+        redisTemplate.delete(restaurantUid + songId + RedisConstant.REDIS_LIKE_SUFFIX);
     }
 
     @Override
-    public boolean checkUserLikeVote(String userUid, Long songId) {
-        final String key = songId + RedisConstant.REDIS_LIKE_SUFFIX;
+    public boolean checkUserLikeVote(String userUid, Long songId, String restaurantUid) {
+        final String key = restaurantUid + songId + RedisConstant.REDIS_LIKE_SUFFIX;
         if (redisTemplate.hasKey(key)) {
-            LOGGER.info("Song like Key Contained for {}",songId);
+            LOGGER.info("Song like Key Contained for {}", songId);
             List<String> values = redisTemplate.opsForValue().get(key);
             return values.contains(userUid);
         }
@@ -48,10 +48,10 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean checkUserUnlikeVote(String userUid, Long songId) {
-        final String key = songId + RedisConstant.REDIS_DISLIKE_SUFFIX;
+    public boolean checkUserUnlikeVote(String userUid, Long songId, String restaurantUid) {
+        final String key = restaurantUid + songId + RedisConstant.REDIS_DISLIKE_SUFFIX;
         if (redisTemplate.hasKey(key)) {
-            LOGGER.info("Song Unlike Key Contained for {}",songId);
+            LOGGER.info("Song Unlike Key Contained for {}", songId);
             List<String> values = redisTemplate.opsForValue().get(key);
             return values.contains(userUid);
         }
@@ -60,42 +60,42 @@ public class RedisServiceImpl implements RedisService {
 
 
     @Override
-    public void addUser(String userUid, Long songId, boolean vote) {
+    public void addUser(String userUid, String restaurantUid, Long songId, boolean vote) {
         String key;
         List<String> values;
-        if(vote){
-            key = songId + RedisConstant.REDIS_LIKE_SUFFIX;
+        if (vote) {
+            key = restaurantUid + songId + RedisConstant.REDIS_LIKE_SUFFIX;
         } else {
-            key = songId + RedisConstant.REDIS_DISLIKE_SUFFIX;
+            key = restaurantUid + songId + RedisConstant.REDIS_DISLIKE_SUFFIX;
         }
 
 
         if (redisTemplate.hasKey(key)) {
-            LOGGER.info("Song like Key Contained for {}",songId);
+            LOGGER.info("Song like Key Contained for {}", songId);
             values = redisTemplate.opsForValue().get(key);
             values.add(userUid);
         } else {
-            LOGGER.info("Song like Key created for {}",songId);
+            LOGGER.info("Song like Key created for {}", songId);
             values = new ArrayList<>();
             values.add(userUid);
         }
-        redisTemplate.opsForValue().set(key,values);
+        redisTemplate.opsForValue().set(key, values);
     }
 
     @Override
-    public void deleteUser(String userUid, Long songId, boolean vote) {
+    public void deleteUser(String userUid, String restaurantUid, Long songId, boolean vote) {
         String key;
         List<String> values;
-        if(vote){
-            key = songId + RedisConstant.REDIS_LIKE_SUFFIX;
+        if (vote) {
+            key = restaurantUid + songId + RedisConstant.REDIS_LIKE_SUFFIX;
         } else {
-            key = songId + RedisConstant.REDIS_DISLIKE_SUFFIX;
+            key = restaurantUid + songId + RedisConstant.REDIS_DISLIKE_SUFFIX;
         }
         if (redisTemplate.hasKey(key)) {
-            LOGGER.info("Song like Key Contained for {}",songId);
+            LOGGER.info("Song like Key Contained for {}", songId);
             values = redisTemplate.opsForValue().get(key);
             values.remove(userUid);
-            redisTemplate.opsForValue().set(key,values);
+            redisTemplate.opsForValue().set(key, values);
         }
     }
 }

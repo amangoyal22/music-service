@@ -85,9 +85,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void voting(String songId, boolean upVote, String userUid) {
-        boolean resultUpVote = redisService.checkUserLikeVote(userUid, Long.valueOf(songId));
-        boolean resultDownVote = redisService.checkUserUnlikeVote(userUid, Long.valueOf(songId));
+    public void voting(String songId, boolean upVote, String userUid,String restaurantUid) {
+        boolean resultUpVote = redisService.checkUserLikeVote(userUid, Long.valueOf(songId),restaurantUid);
+        boolean resultDownVote = redisService.checkUserUnlikeVote(userUid, Long.valueOf(songId),restaurantUid);
 
         if (resultUpVote && upVote || resultDownVote && !upVote) {
 
@@ -97,16 +97,16 @@ public class UserServiceImpl implements UserService {
         } else if (resultDownVote && upVote || resultUpVote && !upVote) {
 
             LOGGER.info("User {} has Change of heart For the SongId {}", userUid, songId);
-            songUserInfoService.doVote(songId, upVote, true);//add vote
-            redisService.addUser(userUid, Long.valueOf(songId), upVote);
-            songUserInfoService.doVote(songId, !upVote, false); //subract vote
-            redisService.deleteUser(userUid, Long.valueOf(songId), !upVote);
+            songUserInfoService.doVote(restaurantUid,songId, upVote, true);//add vote
+            redisService.addUser(userUid, restaurantUid,Long.valueOf(songId), upVote);
+            songUserInfoService.doVote(restaurantUid,songId, !upVote, false); //subract vote
+            redisService.deleteUser(userUid,restaurantUid, Long.valueOf(songId), !upVote);
 
         } else if (resultDownVote == resultUpVote && resultDownVote == false) {
 
             LOGGER.info("User {} First Response For SongId {}", userUid, songId);
-            songUserInfoService.doVote(songId, upVote, true); // add vote
-            redisService.addUser(userUid, Long.valueOf(songId), upVote);
+            songUserInfoService.doVote(restaurantUid,songId, upVote, true); // add vote
+            redisService.addUser(userUid, restaurantUid, Long.valueOf(songId), upVote);
 
         }
 

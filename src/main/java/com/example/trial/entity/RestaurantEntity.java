@@ -14,8 +14,8 @@ import javax.persistence.*;
                                 @ColumnResult(name = "uid", type = String.class),
                                 @ColumnResult(name = "name", type = String.class),
                                 @ColumnResult(name = "location", type = String.class),
-                                @ColumnResult(name = "logo", type = String.class),
-                                @ColumnResult(name = "owner", type = String.class)
+                                @ColumnResult(name = "owner", type = String.class),
+                                @ColumnResult(name = "logo", type = String.class)
                         })
         })
 @NamedNativeQuery(name = "RestaurantEntity.findRestaurantDetails",

@@ -20,12 +20,13 @@ public interface SongUserInfoService {
     /**
      * Gets vote.
      *
-     * @param songId the song id
-     * @param vote   the vote
-     * @param add    the add
+     * @param restaurantUid the restaurant uid
+     * @param songId        the song id
+     * @param vote          the vote
+     * @param add           the add
      * @return the vote
      */
-    void doVote(String songId, boolean vote, boolean add);
+    void doVote(String restaurantUid, String songId, boolean vote, boolean add);
 
     /**
      * Save playlist song user info bo.
@@ -64,6 +65,7 @@ public interface SongUserInfoService {
      *
      * @param restaurantUid the restaurant uid
      * @param songId        the song id
+     * @return the boolean
      */
     boolean checkSongInQueue(String restaurantUid,Long songId);
 

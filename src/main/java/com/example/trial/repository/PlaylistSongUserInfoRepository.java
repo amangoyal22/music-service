@@ -32,11 +32,12 @@ public interface PlaylistSongUserInfoRepository extends JpaRepository<PlaylistSo
     /**
      * Find by song id playlist song user info entity.
      *
-     * @param songId the song id
-     * @param status the status
+     * @param restaurantUid the restaurant uid
+     * @param songId        the song id
+     * @param status        the status
      * @return the playlist song user info entity
      */
-    PlaylistSongUserInfoEntity findBySongIdAndStatus(Long songId, byte status);
+    PlaylistSongUserInfoEntity findByRetaurantUidAndSongIdAndStatus(String restaurantUid, Long songId, byte status);
 
     /**
      * Find by song id and playlist id and created at and status playlist song user info entity.
@@ -74,5 +75,24 @@ public interface PlaylistSongUserInfoRepository extends JpaRepository<PlaylistSo
      * @return the playlist song user info entity
      */
     PlaylistSongUserInfoEntity findBySongIdAndRetaurantUidAndCreatedAtAndStatus(Long songId, String restaurantUid,
-                                                                                         String createdAt, byte status);
+                                                                                String createdAt, byte status);
+
+    /**
+     * Find by retaurant uid and and created at and status list.
+     *
+     * @param restaurantUid the restaurant uid
+     * @param createdAt     the created at
+     * @param status        the status
+     * @return the list
+     */
+    List<PlaylistSongUserInfoEntity> findByRetaurantUidAndAndCreatedAtAndStatus(String restaurantUid, String createdAt,
+                                                                                byte status);
+
+    @Query(value = "SELECT u.* FROM playlist_song_user_info u WHERE u.status = 1 and u.restaurant_uid = :restaurantUid and u.song_id !=:songId "
+            + "and" + " u.created_at = :tdate and u.is_played =:isPlayed ORDER by (u.likes-u.dislikes) DESC, u.id ASC Limit 1",
+            nativeQuery = true)
+    PlaylistSongUserInfoEntity findQueueSongByRestaurantUidAndSongId(@Param("restaurantUid") String restaurantUid,
+                                                                     @Param("tdate") String date,
+                                                                     @Param("isPlayed") byte isPlayed,
+                                                                     @Param("songId") Long songId);
 }

@@ -73,8 +73,10 @@ public class CommonServiceImpl implements CommonService {
 
         if (Objects.nonNull(playlistSongUserInfoBo1)) {
             songUserInfoService.updateCurrentSongInfo(restaurantUid, playlistSongUserInfoBo1.getSongId());
-            redisService.deleteSongKeys(playlistSongUserInfoBo1.getSongId());
+            redisService.deleteSongKeys(playlistSongUserInfoBo1.getSongId(),restaurantUid);
         }
+
+
 
         final PlaylistSongUserInfoBo playlistSongUserInfoBo = songUserInfoService.getNextSongDetails(restaurantUid);
 
